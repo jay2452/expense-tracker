@@ -1,8 +1,10 @@
 import { TextField, makeStyles, Button } from "@material-ui/core";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useHistory } from "react-router-dom";
 import Categories from "./../Categories/index";
 import TopAppBar from "./../ExpenseTracker/TopAppBar";
+import { useDispatch } from 'react-redux';
+import { setSpendFormSelectedCategory } from "../../store/actionCreators/spendActions";
 
 const useStyles = makeStyles((theme) => ({
   formContainer: {
@@ -20,17 +22,24 @@ const useStyles = makeStyles((theme) => ({
 
 const AddSpendForm = (props) => {
   const classes = useStyles();
-
+    const dispatch = useDispatch();
   const history = useHistory();
 
   const handleCancel = useCallback((e) => {
+    dispatch(setSpendFormSelectedCategory(null));
     history.push("/");
-  }, [history]);
+  }, [history, dispatch]);
 
   const handleSave = useCallback(e => {
 
     history.push("/");
-  }, [history])
+  }, [history]);
+
+  const [spendAmount, setSpendAmount] = useState(0);
+  const [description, setDescription] = useState("");
+
+  const handleSpendChange = e => setSpendAmount(e.target.value);
+  const handleDescriptionChange = e => setDescription(e.target.value);
 
   return (
     <>
@@ -41,6 +50,18 @@ const AddSpendForm = (props) => {
             type="number"
             id="spend-amount-input"
             label="Amount spent"
+            value={spendAmount}
+            onChange={handleSpendChange}
+            fullWidth
+          />
+
+            <TextField
+            type="text"
+            rows="2"
+            id="spend-amount-description"
+            label="Description"
+            value={description}
+            onChange={handleDescriptionChange}
             fullWidth
           />
 

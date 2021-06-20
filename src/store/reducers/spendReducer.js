@@ -12,6 +12,7 @@ const initialState = {
   currentWeekSpend: 0,
   currentMonthSpend: 0,
   currentYearSpend: 0,
+  spendFormSelectedCategory: null,
 };
 
 function getCurrentWeek() {
@@ -71,7 +72,13 @@ export default function spendReducer(state = initialState, action) {
         updatedState.currentYearSpend += Number(amount);
       }
       break;
-      default :
+    case "SELECT_SPEND_FORM_CATEGORY":
+      {
+        const {spendFormSelectedCategory} = action.values;
+        updatedState.spendFormSelectedCategory = spendFormSelectedCategory;
+      }
+      break;
+    default:
       break;
   }
   return updatedState;
@@ -107,8 +114,12 @@ function getSpends(spendsList = []) {
       spendsByYearMonth[yearMonth] = 0;
     spendsByYearMonth[yearMonth] += amount;
 
-    const currentDate = new Date().getDate() + "-" +
-      (new Date().getMonth() + 1) + "-" +  new Date().getFullYear();
+    const currentDate =
+      new Date().getDate() +
+      "-" +
+      (new Date().getMonth() + 1) +
+      "-" +
+      new Date().getFullYear();
     if (currentDate === `${dd}-${mm}-${yyyy}`) todaysSpend += amount;
 
     if (spendsByYearWeek[weekNumber] === undefined)
@@ -122,8 +133,6 @@ function getSpends(spendsList = []) {
     todaysSpend,
   };
 }
-
-
 
 function getWeekNumber(dd, mm, yyyy) {
   const date = new Date(yyyy, mm - 1, dd);

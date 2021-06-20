@@ -2,7 +2,7 @@
 const initialState = {
     isSpendDialogBoxOpen: false,
     spendDialogFormTitle: "",
-    currentSelectedTimelineButton: "Today"
+    currentSelectedTimelineButton: "Today",
 };
 
 

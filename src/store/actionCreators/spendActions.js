@@ -21,3 +21,12 @@ export const getSpendsList = () => {
         })
     }
 }
+
+export const setSpendFormSelectedCategory = (spendFormSelectedCategory) => {
+    return {
+        type: "SELECT_SPEND_FORM_CATEGORY",
+        values: {
+            spendFormSelectedCategory
+        }
+    }
+}
