@@ -9,12 +9,12 @@ import {
   IconButton
 } from "@material-ui/core";
 
-import FolderIcon from "@material-ui/icons/Folder";
+// import FolderIcon from "@material-ui/icons/Folder";
 // import DeleteIcon from "@material-ui/icons/Delete";
 // import { IconButton } from "@material-ui/core";
-import { useSelector } from 'react-redux';
-import getCategoryWiseSpendForSelectedTimelineButton from "./getCategoryWiseSpendForSelectedTimelineButton";
-import { useMemo } from "react";
+// import { useSelector } from 'react-redux';
+// import getCategoryWiseSpendForSelectedTimelineButton from "./getCategoryWiseSpendForSelectedTimelineButton";
+// import { useMemo } from "react";
 import { Icon } from "@material-ui/core";
 import categoryIcon from "../Categories/categoryIcon";
 

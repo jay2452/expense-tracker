@@ -9,7 +9,10 @@ const getChartOptions = (data) => {
             plotBorderWidth: null,
             plotShadow: false,
             type: 'pie',
-            height: 200
+            height: 250,
+            style: {
+                fontFamily: "Poppins"
+            }
         },
         title: {
             text: ''
@@ -26,7 +29,7 @@ const getChartOptions = (data) => {
             pie: {
                 allowPointSelect: true,
                 cursor: 'pointer',
-                innerSize: 80,
+                innerSize: 150,
                 dataLabels: {
                     enabled: false,
                     // format: '<b>{point.name}</b>: &#8377;{point.y:.2f}'
@@ -36,38 +39,11 @@ const getChartOptions = (data) => {
         series: [{
             name: 'Spend Amount',
             colorByPoint: true,
-            data,
-            // data: [{
-            //     name: 'Chrome',
-            //     y: 61.41,
-            //     sliced: true,
-            //     selected: true
-            // }, {
-            //     name: 'Internet Explorer',
-            //     y: 11.84
-            // }, {
-            //     name: 'Firefox',
-            //     y: 10.85
-            // }, {
-            //     name: 'Edge',
-            //     y: 4.67
-            // }, {
-            //     name: 'Safari',
-            //     y: 4.18
-            // }, {
-            //     name: 'Sogou Explorer',
-            //     y: 1.64
-            // }, {
-            //     name: 'Opera',
-            //     y: 1.6
-            // }, {
-            //     name: 'QQ',
-            //     y: 1.2
-            // }, {
-            //     name: 'Other',
-            //     y: 2.61
-            // }]
-        }]
+            data
+        }],
+        responsiveness: {
+
+        }
     }
 
 

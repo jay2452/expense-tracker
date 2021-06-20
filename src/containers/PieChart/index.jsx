@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const PieChart = (props) => {
-  const classes = useStyles();
+  // const classes = useStyles();
   const { categoryWiseData } = props;
   
 
@@ -71,9 +71,38 @@ const PieChart = (props) => {
       break;
   }
 
+  chartOptions.chart.events = {
+    render(){
+      try {
+        const chart = this;
+
+        const titleNodes = document.querySelectorAll("#center-text-piechart");
+        for(let i=0; i<titleNodes.length; i++){
+          titleNodes[i].remove();
+        }
+        // debugger;
+
+        const text = chart.renderer.text(`
+          <div id="center-text-piechart">
+            <div style="text-align: center;font-family: Poppins">
+              ${currentSelectedTimelineButton} <br/>
+              <div style="font-size: 20px; font-weight: 500;" >&#8377; ${amount}</div>
+            </div>
+          </div>
+        `, undefined, undefined, true).add();
+        const textBBox = text.getBBox();
+        const x = chart.plotLeft + (chart.plotWidth  * 0.5) - (textBBox.width  * 0.5);
+        const y = chart.plotTop  + (chart.plotHeight * 0.5) - (textBBox.height * 0.25);
+        text.attr({x,y});
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }
+
   return (
     <Grid container>
-      <Grid item xs={6}>
+      <Grid item xs={12}>
         <HighchartsWrapper
           highcharts={Highcharts}
           constructorType={"chart"}
@@ -81,14 +110,14 @@ const PieChart = (props) => {
         />
       </Grid>
 
-      <Grid item xs={6} className={classes.spendSummaryContainer}>
+      {/* <Grid item xs={6} className={classes.spendSummaryContainer}>
         <div>
           <div style={{ textAlign: "center" }}>
             {currentSelectedTimelineButton}
             <div className={classes.value}>&#8377; {amount}</div>
           </div>
         </div>
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 };
