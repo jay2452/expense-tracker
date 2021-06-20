@@ -6,6 +6,8 @@
 //     email: null
 // }
 
+import { currentDate_IN_DDMMYYYY, currentYearMonth, currentYearWeek, getWeekNumber } from "../../utils";
+
 const initialState = {
   data: [],
   currentDaySpend: 0,
@@ -14,12 +16,6 @@ const initialState = {
   currentYearSpend: 0,
   spendFormSelectedCategory: null,
 };
-
-function getCurrentWeek() {
-  const date = new Date();
-  const currentYear = date.getFullYear();
-  return getWeekNumber(date.getDate(), date.getMonth() + 1, currentYear);
-}
 
 export default function spendReducer(state = initialState, action) {
   const updatedState = { ...state };
@@ -38,11 +34,9 @@ export default function spendReducer(state = initialState, action) {
         } = getSpends(updatedState.data);
 
         const currentYear = new Date().getFullYear();
-        const currentWeek = getCurrentWeek();
         updatedState.currentDaySpend = todaysSpend;
-        updatedState.currentWeekSpend = spendsByYearWeek[currentWeek];
-        updatedState.currentMonthSpend =
-          spendsByYearMonth[currentYear + "-" + (new Date().getMonth() + 1)];
+        updatedState.currentWeekSpend = spendsByYearWeek[currentYearWeek];
+        updatedState.currentMonthSpend = spendsByYearMonth[currentYearMonth];
         updatedState.currentYearSpend = spendsByYear[currentYear];
 
         // debugger
@@ -51,16 +45,12 @@ export default function spendReducer(state = initialState, action) {
       }
       break;
 
-    case "SET_SPEND_VALUE":
+    case "SAVE_SPEND_FOR_DATE":
       {
-        const { category, description, amount } = action.values;
-        const currentDate = new Date();
-        const dd = currentDate.getDate();
-        const mm = currentDate.getMonth() + 1;
-        const yyyy = currentDate.getFullYear();
+        const { category, description, amount, date } = action.values;
         updatedState.data.push({
           category,
-          date: dd + "-" + mm + "-" + yyyy,
+          date: date, // dd-mm-yyyy
           amount: Number(amount),
           description,
           email: "jayant2452@gmail.com",
@@ -90,40 +80,39 @@ function getSpends(spendsList = []) {
     [currentDate.getFullYear()]: 0,
   };
   const spendsByYearMonth = {
-    [currentDate.getFullYear() + "-" + (currentDate.getMonth() + 1)]: 0,
+    [currentYearMonth]: 0,
   };
   const spendsByYearWeek = {
-    [getWeekNumber(
-      currentDate.getDate(),
-      currentDate.getMonth() + 1,
-      currentDate.getFullYear()
-    )]: 0,
+    [currentYearWeek]: 0,
   };
   let todaysSpend = 0;
 
   spendsList.forEach((item) => {
+    const today_ddmmyyyy = currentDate_IN_DDMMYYYY;
     const { date, amount } = item;
-    const [dd, mm, yyyy] = date.split("-").map((num) => Number(num));
+    let [dd, mm, yyyy] = date.split("-").map((num) => Number(num));
+    if(mm.toString().length === 1){
+      mm = 0 + "" + mm;
+    }
+    const yearMonth = yyyy + "-" + mm;
     const weekNumber = getWeekNumber(dd, mm, yyyy);
+    // updating the original data with year, month, and date
+    item.day = dd;
+    item.yearMonth = yearMonth;
+    item.year = yyyy;
+    item.yearWeek = weekNumber;
+    
 
     if (spendsByYear[yyyy] === undefined) spendsByYear[yyyy] = 0;
     spendsByYear[yyyy] += amount;
 
-    const yearMonth = yyyy + "-" + mm;
-    if (spendsByYearMonth[yearMonth] === undefined)
-      spendsByYearMonth[yearMonth] = 0;
+    
+    if (spendsByYearMonth[yearMonth] === undefined) spendsByYearMonth[yearMonth] = 0;
     spendsByYearMonth[yearMonth] += amount;
+      
+    if (today_ddmmyyyy === `${dd}-${mm}-${yyyy}`) todaysSpend += amount;
 
-    const currentDate =
-      new Date().getDate() +
-      "-" +
-      (new Date().getMonth() + 1) +
-      "-" +
-      new Date().getFullYear();
-    if (currentDate === `${dd}-${mm}-${yyyy}`) todaysSpend += amount;
-
-    if (spendsByYearWeek[weekNumber] === undefined)
-      spendsByYearWeek[weekNumber] = 0;
+    if (spendsByYearWeek[weekNumber] === undefined) spendsByYearWeek[weekNumber] = 0;
     spendsByYearWeek[weekNumber] += amount;
   });
   return {
@@ -132,15 +121,4 @@ function getSpends(spendsList = []) {
     spendsByYearWeek,
     todaysSpend,
   };
-}
-
-function getWeekNumber(dd, mm, yyyy) {
-  const date = new Date(yyyy, mm - 1, dd);
-  const oneJan = new Date(yyyy, 0, 1);
-  const numberOfDaysInYear = Math.floor(
-    (date - oneJan) / (24 * 60 * 60 * 1000)
-  );
-  const weekNum = Math.ceil((date.getDay() + 1 + numberOfDaysInYear) / 7);
-
-  return `${yyyy}-${weekNum}`;
 }

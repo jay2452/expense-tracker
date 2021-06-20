@@ -10,15 +10,6 @@ export const toggleSpendFormDialogBox = (isOpen = false, title) => {
     }
 }
 
-export const setSpendValue = (category = "Others", description = "", amount = 0) => {
-    return {
-        type: "SET_SPEND_VALUE",
-        values: {
-            category, description, amount
-        }
-    }
-}
-
 
 export const changeCurrentSelectedTimelineButton = (selectedButton) => {
     return {

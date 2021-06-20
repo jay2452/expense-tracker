@@ -30,3 +30,21 @@ export const setSpendFormSelectedCategory = (spendFormSelectedCategory) => {
         }
     }
 }
+
+// export const saveSpendForDate = (date, amount, category, description) => {
+//     return {
+//         type: "SAVE_SPEND_FOR_DATE",
+//         values: { 
+//             date, amount, category, description
+//         }
+//     }
+// }
+
+export const saveSpendForDate = (category = "Others", description = "", amount = 0, date) => {
+    return {
+        type: "SAVE_SPEND_FOR_DATE",
+        values: {
+            category, description, amount, date
+        }
+    }
+}

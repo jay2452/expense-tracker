@@ -21,12 +21,55 @@ const useStyles = makeStyles((theme) => ({
 
 const PieChart = (props) => {
   const classes = useStyles();
+  const { categoryWiseData } = props;
+  
 
-  const chartOptions = getChartOptions();
+  const uiState = useSelector((state) => state.ui);
+  const spendState = useSelector(state => state.spends);
 
-  const uiState = useSelector(state => state.ui);
+  const pieChartData = React.useMemo(() => {
 
-  const {currentSelectedTimelineButton = "Today"} = uiState;
+    let data = [];
+
+    for (const cat in categoryWiseData) {
+      data.push({
+        name: cat,
+        y: categoryWiseData[cat]
+      });
+    };
+    return data;
+  }, [categoryWiseData])
+  const chartOptions = getChartOptions(pieChartData);
+
+  const {
+    currentDaySpend = 0,
+    currentWeekSpend = 0,
+    currentMonthSpend = 0,
+    currentYearSpend = 0,
+  } = spendState;
+
+  const { currentSelectedTimelineButton = "Today" } = uiState;
+  let amount = 0;
+
+  switch (currentSelectedTimelineButton) {
+    case "Today":
+      amount = currentDaySpend;
+      break;
+    case "Week":
+      amount = currentWeekSpend;
+      break;
+
+    case "Month":
+      amount = currentMonthSpend;
+      break;
+
+    case "Year":
+      amount = currentYearSpend;
+      break;
+
+    default:
+      break;
+  }
 
   return (
     <Grid container>
@@ -42,9 +85,7 @@ const PieChart = (props) => {
         <div>
           <div style={{ textAlign: "center" }}>
             {currentSelectedTimelineButton}
-            <div className={classes.value}>
-              &#8377; 1500
-            </div>
+            <div className={classes.value}>&#8377; {amount}</div>
           </div>
         </div>
       </Grid>
