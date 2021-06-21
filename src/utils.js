@@ -9,14 +9,14 @@ export function getWeekNumber(dd, mm, yyyy) {
   return `${yyyy}-${weekNum}`;
 }
 
-export function getCurrentWeek() {
+function getCurrentWeek() {
   const date = new Date();
   const currentYear = date.getFullYear();
   return getWeekNumber(date.getDate(), date.getMonth() + 1, currentYear);
 }
 
 
-export function getCurrentDate_IN_DDMMYYY(){
+function getCurrentDate_IN_DDMMYYY(){
     const currentDate = new Date();
     const dd = currentDate.getDate();
     let mm = currentDate.getMonth() + 1;
@@ -28,7 +28,7 @@ export function getCurrentDate_IN_DDMMYYY(){
     return ddmmyyyy;
 }
 
-export function getCurrentYearMonth() {
+function getCurrentYearMonth() {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
     let mm = currentDate.getMonth() + 1;

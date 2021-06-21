@@ -6,18 +6,18 @@ import Highcharts from "highcharts/highstock";
 import getChartOptions from "./getChartOptions";
 import { useSelector } from "react-redux";
 
-const useStyles = makeStyles((theme) => ({
-  spendSummaryContainer: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  value: {
-    textAlign: "center",
-    fontSize: "20px",
-    fontWeight: "500",
-  },
-}));
+// const useStyles = makeStyles((theme) => ({
+//   spendSummaryContainer: {
+//     display: "flex",
+//     justifyContent: "center",
+//     alignItems: "center",
+//   },
+//   value: {
+//     textAlign: "center",
+//     fontSize: "20px",
+//     fontWeight: "500",
+//   },
+// }));
 
 const PieChart = (props) => {
   // const classes = useStyles();

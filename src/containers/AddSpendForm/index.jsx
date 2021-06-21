@@ -5,7 +5,7 @@ import Categories from "./../Categories/index";
 import TopAppBar from "./../ExpenseTracker/TopAppBar";
 import { useDispatch, useSelector } from "react-redux";
 import { saveSpendForDate, setSpendFormSelectedCategory } from "../../store/actionCreators/spendActions";
-import { getCurrentDate_IN_DDMMYYY } from "../../utils";
+import { currentDate_IN_DDMMYYYY } from "../../utils";
 
 const useStyles = makeStyles((theme) => ({
   formContainer: {
@@ -22,12 +22,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// const currentDate = new Date();
-// const dd = currentDate.getDate();
-// const mm = currentDate.getMonth() + 1;
-// const yyyy = currentDate.getFullYear();
-// const ddmmyyyy = `${dd}-${mm}-${yyyy}`;
-
 const AddSpendForm = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -37,7 +31,7 @@ const AddSpendForm = (props) => {
   const [spendAmount, setSpendAmount] = useState(0);
   const [description, setDescription] = useState("");
 
-  const ddmmyyyy = getCurrentDate_IN_DDMMYYY();
+  const ddmmyyyy = currentDate_IN_DDMMYYYY;
 
   const handleCancel = useCallback(
     (e) => {

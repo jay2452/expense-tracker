@@ -12,6 +12,7 @@ import { applyMiddleware, createStore } from "redux";
 import thunk from "redux-thunk";
 import NotFound from "./NotFound";
 import AddSpendForm from "./containers/AddSpendForm/index";
+import ImportData from './containers/ImportData/index';
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
@@ -23,6 +24,9 @@ ReactDOM.render(
           <Route path="/" exact component={App}></Route>
 
           <Route path="/addSpend" exact component={AddSpendForm} />
+
+          <Route path="/import" exact component={ImportData} />
+
 
           <Route component={NotFound} />
 
